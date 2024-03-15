@@ -42,3 +42,7 @@ Please submit your project through a GitHub repository link. Your `README.md` sh
 
 
 Remember, the key to this challenge is not just in fulfilling the technical requirements but in demonstrating creativity and thoughtfulness in your approach to solving user needs.
+
+### Questions?
+
+If you have any questions or need further clarification, feel free to open an issue in this repository or send an e-mail to **developer@orbistanbul.com**, and we will get back to you as soon as possible.
