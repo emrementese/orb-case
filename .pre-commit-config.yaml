@@ -1,0 +1,61 @@
+# .pre-commit-config.yaml
+repos:
+  # Genel pre-commit hook'ları için kullanılan repo
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: trailing-whitespace  # Boşluk kontrolü
+        description: "Satır sonlarındaki boşlukları temizler."
+      - id: end-of-file-fixer    # Dosya sonunda yeni satır olup olmadığını kontrol eder
+        description: "Her dosyanın sonunda bir yeni satır olup olmadığını doğrular."
+      - id: check-yaml           # YAML dosyalarını kontrol eder
+        description: "YAML dosyalarının doğru formatta olup olmadığını doğrular."
+      - id: check-merge-conflict # Merge conflict kalıntılarını kontrol eder
+        description: "Git birleştirme çatışmalarını kontrol eder."
+      - id: check-json           # JSON dosyalarını doğrular
+        description: "Geçerli JSON dosyalarını kontrol eder."
+
+  # Black - Python kod formatlayıcısı
+  - repo: https://github.com/psf/black
+    rev: 24.10.0
+    hooks:
+      - id: black
+        language_version: python3.9
+        description: "Python dosyalarını black formatlayıcısı ile formatlar."
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 7.1.1  # Flake8'in en son stabil sürümü
+    hooks:
+      - id: flake8
+        name: flake8
+        description: "Flake8 ile Python kod kalite ve stil kontrolleri yapar."
+        args:
+          - --max-line-length=88
+          - --ignore=E203,W503
+
+  # Bandit - Güvenlik zafiyetlerini kontrol eden bir araç
+  - repo: https://github.com/PyCQA/bandit
+    rev: 1.7.10
+    hooks:
+      - id: bandit
+        name: bandit
+        description: "Python kodundaki güvenlik zafiyetlerini analiz eder."
+        args:
+          - --skip B101  # Örnek olarak güvenli olmayan kullanım için spesifik bir kontrolü atla
+
+  # isort - Import sıralayıcısı
+  - repo: https://github.com/pre-commit/mirrors-isort
+    rev: v5.10.1
+    hooks:
+      - id: isort
+        name: isort
+        description: "Python importlarını düzenler."
+
+  # MyPy - Statik tür denetleyicisi
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.11.2
+    hooks:
+      - id: mypy
+        name: mypy
+        description: "Python dosyalarında statik tip denetlemesi yapar."
+        additional_dependencies: ['types-requests']  # İsteğe bağlı ek paketler
