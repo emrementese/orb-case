@@ -5,10 +5,13 @@ from rest_framework import routers
 
 from events.views import EventViewSet
 
+from .views import LoginView
+
 api_router = routers.DefaultRouter()
 api_router.register(r"events", EventViewSet, basename="events")
 
 urlpatterns = [
+    path("login/", LoginView.as_view(), name="login"),
     path("", include(api_router.urls)),
     path(
         "api/swagger-json",

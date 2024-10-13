@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -8,6 +9,7 @@ class Event(models.Model):
         PERSONAL = ("PERSONAL", "Personal")
         HEALTH = ("HEALTH", "Health")
 
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Owner")
     category = models.CharField(
         max_length=50, choices=Categories.choices, verbose_name="Category"
     )

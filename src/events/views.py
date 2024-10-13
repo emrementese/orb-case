@@ -22,7 +22,7 @@ class EventViewSet(GenericViewSet):
     http_method_names = ["get", "post", "put", "delete"]
 
     def get_queryset(self) -> BaseManager[Event]:
-        base_queryset = self.queryset.filter(is_deleted=False)
+        base_queryset = self.queryset.filter(is_deleted=False, owner=self.request.user)
         match self.action:
             case "upcoming":
                 last_24_hours = timezone.now() - timedelta(hours=24)
