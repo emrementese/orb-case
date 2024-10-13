@@ -15,9 +15,9 @@ class Event(models.Model):
     description = models.TextField(verbose_name="Description")
     date = models.DateTimeField(verbose_name="Date")
     time = models.TimeField(verbose_name="Time")
-    is_deleted = models.BooleanField(default=False)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    is_deleted = models.BooleanField(default=False, verbose_name="Is Deleted")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
+    updated_at = models.DateTimeField(auto_now=True, verbose_name="Updated At")
 
     def __str__(self):
         return f"Event: {self.pk}"

@@ -1,13 +1,15 @@
-from django.urls import path, re_path
+from django.urls import include, path, re_path
 from drf_spectacular.views import SpectacularJSONAPIView as JsonView
 from drf_spectacular.views import SpectacularSwaggerView as SwaggerView
 from rest_framework import routers
 
-api_router = routers.DefaultRouter()
+from events.views import EventViewSet
 
+api_router = routers.DefaultRouter()
+api_router.register(r"events", EventViewSet, basename="events")
 
 urlpatterns = [
-    # path("", include(api_router.urls)),
+    path("", include(api_router.urls)),
     path(
         "api/swagger-json",
         JsonView.as_view(),
