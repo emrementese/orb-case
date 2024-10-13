@@ -30,7 +30,7 @@ repos:
         name: flake8
         description: "Flake8 ile Python kod kalite ve stil kontrolleri yapar."
         args:
-          - --max-line-length=88
+          - --max-line-length=120
           - --ignore=E203,W503
 
   # Bandit - Güvenlik zafiyetlerini kontrol eden bir araç
