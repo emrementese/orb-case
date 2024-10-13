@@ -20,7 +20,7 @@ repos:
     rev: 24.10.0
     hooks:
       - id: black
-        language_version: python3.9
+        language_version: python3.12
         description: "Python dosyalarını black formatlayıcısı ile formatlar."
 
   - repo: https://github.com/pycqa/flake8

@@ -13,7 +13,7 @@ class Event(models.Model):
     )
     title = models.CharField(max_length=200, verbose_name="Title")
     description = models.TextField(verbose_name="Description")
-    date = models.DateTimeField(verbose_name="Date")
+    date = models.DateField(verbose_name="Date")
     time = models.TimeField(verbose_name="Time")
     is_deleted = models.BooleanField(default=False, verbose_name="Is Deleted")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")

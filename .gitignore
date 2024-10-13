@@ -147,3 +147,6 @@ media/
 media_root/
 media_root
 media
+
+.vscode
+.vscode/
