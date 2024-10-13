@@ -1,0 +1,27 @@
+from django.db import models
+
+
+class Event(models.Model):
+
+    class Categories(models.TextChoices):
+        WORK = ("WORK", "Work")
+        PERSONAL = ("PERSONAL", "Personal")
+        HEALTH = ("HEALTH", "Health")
+
+    category = models.CharField(
+        max_length=50, choices=Categories.choices, verbose_name="Category"
+    )
+    title = models.CharField(max_length=200, verbose_name="Title")
+    description = models.TextField(verbose_name="Description")
+    date = models.DateTimeField(verbose_name="Date")
+    time = models.TimeField(verbose_name="Time")
+    is_deleted = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"Event: {self.pk}"
+
+    class Meta:
+        ordering = ["-date"]
+        db_table = "events"
