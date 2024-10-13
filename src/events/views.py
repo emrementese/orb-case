@@ -28,9 +28,17 @@ class EventViewSet(GenericViewSet):
         base_queryset = self.queryset.filter(is_deleted=False, owner=self.request.user)
         match self.action:
             case "upcoming":
-                last_24_hours = timezone.now() - timedelta(hours=24)
+                now = timezone.now()
+                after_24_hours = now + timedelta(hours=24)
                 upcoming_events = base_queryset.filter(
-                    Q(date=last_24_hours.date(), time__gte=last_24_hours.time())
+                    Q(
+                        date__lte=after_24_hours.date(),
+                        date__gte=now.date(),
+                    )
+                    & Q(
+                        Q(date=now.date(), time__gte=now.time())
+                        | Q(date=after_24_hours.date(), time__lte=after_24_hours.time())
+                    )
                 )
                 return upcoming_events
             case _:
