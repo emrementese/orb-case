@@ -3,7 +3,7 @@ from datetime import timedelta
 from django.db.models import Q
 from django.db.models.manager import BaseManager
 from django.utils import timezone
-from drf_spectacular.utils import extend_schema
+from drf_spectacular.utils import OpenApiParameter, extend_schema
 from rest_framework.decorators import action
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.request import Request
@@ -116,6 +116,36 @@ class EventViewSet(GenericViewSet):
     def upcoming(self, request: Request, *args, **kwargs) -> Response:
         paginator = PageNumberPagination()
         queryset = self.get_queryset()
+        paginated_queryset = paginator.paginate_queryset(queryset, request)
+        serializer = self.get_serializer(paginated_queryset, many=True)
+        return paginator.get_paginated_response(serializer.data)
+
+    @extend_schema(
+        summary="Get all events filtered by category",
+        description="Get a list of filtered event by category",
+        parameters=[
+            OpenApiParameter(
+                name="categoryName",
+                location=OpenApiParameter.PATH,
+                description="Name of the category",
+                required=True,
+                type=str,
+                enum=[category[0] for category in Event.Categories.choices],
+            )
+        ],
+        responses={200: EventSerializer(many=True), 401: UnAuthorizedSerializer},
+    )
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path=r"category/(?P<categoryName>[^/.]+)",
+        url_name="category",
+    )
+    def category(
+        self, request: Request, categoryName: str, *args, **kwargs
+    ) -> Response:
+        paginator = PageNumberPagination()
+        queryset = self.get_queryset().filter(category=categoryName)
         paginated_queryset = paginator.paginate_queryset(queryset, request)
         serializer = self.get_serializer(paginated_queryset, many=True)
         return paginator.get_paginated_response(serializer.data)

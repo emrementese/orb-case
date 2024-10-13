@@ -3,10 +3,14 @@ from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from rest_framework.serializers import ModelSerializer
 
+from api.serializers import UserSerializer
+
 from .models import Event
 
 
 class EventSerializer(ModelSerializer):
+
+    owner = UserSerializer(read_only=True)
 
     class Meta:
         model = Event
