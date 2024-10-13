@@ -12,6 +12,7 @@ from rest_framework.viewsets import GenericViewSet
 
 from api.serializers import NotFoundSerializer, UnAuthorizedSerializer
 
+from .filters import EventFilter
 from .models import Event
 from .serializers import EventSerializer
 
@@ -19,6 +20,8 @@ from .serializers import EventSerializer
 class EventViewSet(GenericViewSet):
     queryset = Event.objects.all()
     serializer_class = EventSerializer
+    filter_backends = EventFilter.filter_backends
+    filterset_class = EventFilter
     http_method_names = ["get", "post", "put", "delete"]
 
     def get_queryset(self) -> BaseManager[Event]:
@@ -112,7 +115,13 @@ class EventViewSet(GenericViewSet):
         description="Get a list of upcoming events within the last 24 hours",
         responses={200: EventSerializer(many=True), 401: UnAuthorizedSerializer},
     )
-    @action(detail=False, methods=["get"], url_path="upcoming", url_name="upcoming")
+    @action(
+        detail=False,
+        methods=["get"],
+        url_path="upcoming",
+        url_name="upcoming",
+        filter_backends=[],
+    )
     def upcoming(self, request: Request, *args, **kwargs) -> Response:
         paginator = PageNumberPagination()
         queryset = self.get_queryset()
@@ -140,6 +149,7 @@ class EventViewSet(GenericViewSet):
         methods=["get"],
         url_path=r"category/(?P<categoryName>[^/.]+)",
         url_name="category",
+        filter_backends=[],
     )
     def category(
         self, request: Request, categoryName: str, *args, **kwargs
