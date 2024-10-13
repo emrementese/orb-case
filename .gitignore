@@ -139,3 +139,11 @@ GitHub.sublime-settings
 
 # poetry
 poetry.lock
+
+static/
+staticfiles/
+static
+media/
+media_root/
+media_root
+media
